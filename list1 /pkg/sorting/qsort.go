@@ -1,38 +1,47 @@
 package sorting
 
 type Qsort struct {
-	counter int
-}
-
-func (qsort *Qsort) count() {
-	qsort.counter++
-}
-
-func (qsort *Qsort) init() {
-	qsort.counter = 0
+	swapCounter       int
+	comparisonCounter int
 }
 
 func (qsort *Qsort) sort(arr []int) {
+	qsort.init()
 	qsort.sortArr(arr, 0, len(arr)-1)
 }
 
 func (qsort *Qsort) sortArr(arr []int, start, stop int) {
-	if start >= stop {
+	if qsort.compare(stop, start) {
 		return
 	}
 
 	pivot := arr[start]
-	index := start
+	pivotIndex := start
 
 	for i := start + 1; i <= stop; i++ {
-		if arr[i] < pivot {
-			index++
-			arr[index], arr[i] = arr[i], arr[index]
+		if qsort.compare(arr[i], pivot) {
+			pivotIndex++
+			qsort.swap(&arr[pivotIndex], &arr[i])
 		}
 	}
 
-	arr[start], arr[index] = arr[index], arr[start]
+	qsort.swap(&arr[start], &arr[pivotIndex])
 
-	qsort.sortArr(arr, start, index-1)
-	qsort.sortArr(arr, index+1, stop)
+	qsort.sortArr(arr, start, pivotIndex-1)
+	qsort.sortArr(arr, pivotIndex+1, stop)
+}
+
+func (qsort *Qsort) swap(a, b *int) {
+	qsort.swapCounter++
+	*a, *b = *b, *a
+}
+
+func (qsort *Qsort) init() {
+	qsort.swapCounter = 0
+	qsort.comparisonCounter = 0
+}
+
+func (qsort *Qsort) compare(a, b int) bool {
+	qsort.comparisonCounter++
+	return a <= b
 }
