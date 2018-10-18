@@ -1,16 +1,17 @@
 package sorting
 
-type Qsort struct {
+type RegularQsort struct {
 	swapCounter       int
 	comparisonCounter int
 }
 
-func (qsort *Qsort) sort(arr []int) {
+func (qsort *RegularQsort) Sort(arr []int) (int, int) {
 	qsort.init()
 	qsort.sortArr(arr, 0, len(arr)-1)
+	return qsort.swapCounter, qsort.comparisonCounter
 }
 
-func (qsort *Qsort) sortArr(arr []int, start, stop int) {
+func (qsort *RegularQsort) sortArr(arr []int, start, stop int) {
 	if qsort.compare(stop, start) {
 		return
 	}
@@ -31,17 +32,26 @@ func (qsort *Qsort) sortArr(arr []int, start, stop int) {
 	qsort.sortArr(arr, pivotIndex+1, stop)
 }
 
-func (qsort *Qsort) swap(a, b *int) {
-	qsort.swapCounter++
+func (qsort *RegularQsort) swap(a, b *int) {
+	qsort.swapCount()
 	*a, *b = *b, *a
 }
 
-func (qsort *Qsort) init() {
+func (qsort *RegularQsort) init() {
 	qsort.swapCounter = 0
 	qsort.comparisonCounter = 0
 }
 
-func (qsort *Qsort) compare(a, b int) bool {
+func (qsort *RegularQsort) compare(a, b int) bool {
 	qsort.comparisonCounter++
 	return a <= b
+}
+
+func (qsort *RegularQsort) compareLess(a, b int) bool {
+	qsort.comparisonCounter++
+	return a < b
+}
+
+func (qsort *RegularQsort) swapCount() {
+	qsort.swapCounter++
 }
