@@ -11,7 +11,7 @@ func (qsort *SedgewickDoublePivotQsort) Sort(arr []int) (int, int) {
 }
 
 func (qsort *SedgewickDoublePivotQsort) sortArr(arr []int, left, right int) {
-	if qsort.compare(right, left) {
+	if right <= left {
 		return
 	}
 
@@ -26,7 +26,7 @@ func (qsort *SedgewickDoublePivotQsort) sortArr(arr []int, left, right int) {
 	for {
 		i++
 		for qsort.compare(arr[i], q) {
-			if qsort.compare(j, i) {
+			if j <= i {
 				done = true
 				break
 			}
@@ -52,7 +52,7 @@ func (qsort *SedgewickDoublePivotQsort) sortArr(arr []int, left, right int) {
 				arr[j] = arr[j1]
 				qsort.swapCount()
 			}
-			if qsort.compare(j, i) {
+			if j <= i {
 				done = true
 				break
 			}

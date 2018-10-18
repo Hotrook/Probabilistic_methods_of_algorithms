@@ -11,25 +11,39 @@ func (qsort *RegularQsort) Sort(arr []int) (int, int) {
 	return qsort.swapCounter, qsort.comparisonCounter
 }
 
-func (qsort *RegularQsort) sortArr(arr []int, start, stop int) {
-	if qsort.compare(stop, start) {
+func (qsort *RegularQsort) sortArr(arr []int, left, right int) {
+	if right <= left {
 		return
 	}
 
-	pivot := arr[start]
-	pivotIndex := start
+	p := arr[right]
+	i := left - 1
+	j := right
 
-	for i := start + 1; i <= stop; i++ {
-		if qsort.compare(arr[i], pivot) {
-			pivotIndex++
-			qsort.swap(&arr[pivotIndex], &arr[i])
+	for {
+		for {
+			i++
+			if !qsort.compareLess(arr[i], p) {
+				break
+			}
+		}
+		for {
+			j--
+			if j == -1 || !qsort.compareLess(p, arr[j]) {
+				break
+			}
+		}
+		if j > i {
+			qsort.swap(&arr[i], &arr[j])
+		}
+		if !(j > i) {
+			break
 		}
 	}
+	qsort.swap(&arr[i], &arr[right])
 
-	qsort.swap(&arr[start], &arr[pivotIndex])
-
-	qsort.sortArr(arr, start, pivotIndex-1)
-	qsort.sortArr(arr, pivotIndex+1, stop)
+	qsort.sortArr(arr, left, i-1)
+	qsort.sortArr(arr, i+1, right)
 }
 
 func (qsort *RegularQsort) swap(a, b *int) {

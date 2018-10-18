@@ -11,7 +11,7 @@ func (qsort *YaroslavskyDoublePivotQsort) Sort(arr []int) (int, int) {
 }
 
 func (qsort *YaroslavskyDoublePivotQsort) sortArr(arr []int, left, right int) {
-	if qsort.compare(right, left) {
+	if right <= left {
 		return
 	}
 
@@ -29,7 +29,7 @@ func (qsort *YaroslavskyDoublePivotQsort) sortArr(arr []int, left, right int) {
 			qsort.swap(&arr[k], &arr[l])
 			l++
 		} else if qsort.compareLess(q, arr[k]) {
-			for qsort.compareLess(q, arr[g]) && qsort.compareLess(k, g) {
+			for qsort.compareLess(q, arr[g]) && k < g {
 				g--
 			}
 			qsort.swap(&arr[k], &arr[g])
