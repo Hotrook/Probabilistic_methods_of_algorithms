@@ -15,16 +15,17 @@ const probes = 1000
 
 var algoNames = []string{"Regular", "Sedgewick", "Yaroslavsky"}
 
-var expcetedValues [][]function = [][]function{
-	[]function{
+// Theoretical values for expected values of comparisons and swaps
+var expcetedValues = [][]function{
+	{
 		func(n int) float64 {
 			return 2.0*float64(n)*math.Log(float64(n)) - 1.51*float64(n)
 		},
 		func(n int) float64 {
-			return 0.33*float64(n)*math.Log(float64(n)) - 0.58*float64(n)
+			return 0.33*float64(n)*math.Log(float64(n)) - 0.25*float64(n)
 		},
 	},
-	[]function{
+	{
 		func(n int) float64 {
 			return 2.11*float64(n)*math.Log(float64(n)) - 2.57*float64(n)
 		},
@@ -32,7 +33,7 @@ var expcetedValues [][]function = [][]function{
 			return 0.8*float64(n)*math.Log(float64(n)) - 0.3*float64(n)
 		},
 	},
-	[]function{
+	{
 		func(n int) float64 {
 			return 1.9*float64(n)*math.Log(float64(n)) - 2.46*float64(n)
 		},
@@ -48,6 +49,13 @@ func main() {
 	comparisons := [algorithmsNumber][probes]int{}
 	algorithm := []sorting.Quicksort{&sorting.RegularQsort{}, &sorting.SedgewickDoublePivotQsort{}, &sorting.YaroslavskyDoublePivotQsort{}}
 
+	makeExperiment(algorithm, swaps, comparisons)
+
+	generateStats(swaps, comparisons)
+
+}
+
+func makeExperiment(algorithm []sorting.Quicksort, swaps [algorithmsNumber][probes]int, comparisons [algorithmsNumber][probes]int) {
 	for probe := 0; probe < probes; probe++ {
 		array := generateRandomPermutation(n)
 		toPass := make([]int, n)
@@ -58,10 +66,8 @@ func main() {
 			comparisons[algoId][probe] = c
 		}
 	}
-
-	generateStats(swaps, comparisons)
-
 }
+
 func generateStats(swaps [algorithmsNumber][probes]int, comparisons [algorithmsNumber][probes]int) {
 	for alg := 0; alg < algorithmsNumber; alg++ {
 		printStatsForAlgorithm(alg, comparisons, swaps)
@@ -75,13 +81,13 @@ func printStatsForAlgorithm(alg int, comparisons, swaps [algorithmsNumber][probe
 	printTheoreticalValues(alg)
 	fmt.Println()
 }
+
 func printTheoreticalValues(alg int) {
+	fmt.Printf("\tTheoretically: \n")
 	fmt.Printf("\tC_n:\n")
 	fmt.Printf("\t\tEX:  %v\n", expcetedValues[alg][0](n))
-
 	fmt.Printf("\tS_n:\n")
 	fmt.Printf("\t\tEX:  %v\n", expcetedValues[alg][1](n))
-	//fmt.Printf("\t\tVar: %v\n", calculateVar(comparisons, alg))
 }
 
 func printStatsForSequence(alg int, statName string, comparisons [algorithmsNumber][probes]int) {
@@ -109,7 +115,7 @@ func calculateEX(seq [algorithmsNumber][probes]int, alg int) float64 {
 
 func generateRandomPermutation(n int) []int {
 	result := make([]int, n)
-	for index, _ := range result {
+	for index := range result {
 		result[index] = index
 	}
 	rand.Shuffle(int(n), func(i, j int) {
