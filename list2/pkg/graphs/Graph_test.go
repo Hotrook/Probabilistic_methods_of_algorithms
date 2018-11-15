@@ -1,4 +1,4 @@
-package graph
+package graphs
 
 import (
 	"testing"
@@ -88,12 +88,12 @@ func TestGraph_twoLargestComponents(t *testing.T) {
 				n:     tt.fields.n,
 				edges: tt.fields.edges,
 			}
-			got, got1 := graph.twoLargestComponents()
+			got, got1 := graph.TwoLargestComponents()
 			if got != tt.component1 {
-				t.Errorf("Graph.twoLargestComponents() got = %v, component1 %v", got, tt.component1)
+				t.Errorf("Graph.TwoLargestComponents() got = %v, component1 %v", got, tt.component1)
 			}
 			if got1 != tt.component2 {
-				t.Errorf("Graph.twoLargestComponents() got1 = %v, component1 %v", got1, tt.component2)
+				t.Errorf("Graph.TwoLargestComponents() got1 = %v, component1 %v", got1, tt.component2)
 			}
 		})
 	}

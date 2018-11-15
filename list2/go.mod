@@ -1,1 +1,1 @@
-module list2
+module github.com/Hotrook/Probabilistic_methods_of_algorithms/list2

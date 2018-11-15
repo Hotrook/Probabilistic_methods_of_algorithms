@@ -1,4 +1,4 @@
-package graph
+package graphs
 
 import (
 	"math/rand"
@@ -30,7 +30,7 @@ func (graph Graph) isEdge(i int, j int) bool {
 	return graph.edges[i][j] == 1
 }
 
-func (graph Graph) twoLargestComponents() (int, int) {
+func (graph Graph) TwoLargestComponents() (int, int) {
 
 	nodeComponent, componentNumber := graph.divideNodesIntoComponents()
 	components := make([]int, componentNumber)
@@ -78,7 +78,7 @@ func (graph Graph) bfs(node int, nodeComponent []int, component int) {
 	}
 }
 
-func generateRandomGraph(n int, p float64) *Graph {
+func GenerateRandomGraph(n int, p float64) *Graph {
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 
