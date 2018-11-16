@@ -25,6 +25,7 @@ func main() {
 
 	functions := []probabilityFunction{first, second, third, fourth, fifth, sixth}
 
+	fmt.Printf("Running experiment for size=%d\n", n)
 	for p := range functions {
 		componentSize1, componentSize2 := makeExperiment(probes, n, functions[p](n))
 

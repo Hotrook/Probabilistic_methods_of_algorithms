@@ -1,27 +1,25 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
+
+parser = argparse.ArgumentParser(description='Generate chart for Random Graphs experiments.')
+parser.add_argument('-fst', metavar='fst', 
+    help='Filename with data for first component', default="firstComponent.txt")
+parser.add_argument('-snd', metavar='snd', 
+    help='Filename with data for second component', default="secondComponent.txt")
+
+args = parser.parse_args()
 
 probabilitiesNumber = 6
 names = ["first", "second", "third", "fourth", "fifth", "sixth"]
 
 def read_data_from_file(filename):
-    file = open(filename, "r")
-    lines = list(file)
+    
+    data = np.genfromtxt(filename, delimiter=';')
+    (_, sizeY) = np.shape(data)
+    return data[:,0], data[:,1:sizeY]
 
-    sizeX = len(lines)
-    sizeY = probabilitiesNumber 
-
-    x = np.zeros((sizeX))
-    y = np.zeros((sizeX, sizeY))
-
-    for index, line in enumerate(lines):
-        numbers = line.split(";")
-        x[index] = int(numbers[0])
-        for p in range(1,sizeY+1):
-            y[index][p-1] = float(numbers[p])
-
-    return x, y
-        
+# TODO: add possibility for saving chart to file
 def generateChart(x, y):
     for p in range(0,probabilitiesNumber):
         plt.subplot(231+p)
@@ -30,8 +28,9 @@ def generateChart(x, y):
 
     plt.show()
 
-x,y = read_data_from_file("firstComponent.txt")
+x,y = read_data_from_file(args.fst)
 generateChart(x,y)
 
-x,y = read_data_from_file("secondComponent.txt")
+x,y = read_data_from_file(args.snd)
 generateChart(x,y)
+
