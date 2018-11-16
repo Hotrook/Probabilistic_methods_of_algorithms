@@ -84,11 +84,9 @@ func GenerateRandomGraph(n int, p float64) *Graph {
 
 	graph := NewGraph(n)
 	for i := range graph.edges {
-		for j := range graph.edges[i] {
-			if i != j {
-				if r1.Float64() <= p {
-					graph.addEdge(i, j)
-				}
+		for j := i + 1; j < n; j++ {
+			if r1.Float64() <= p {
+				graph.addEdge(i, j)
 			}
 		}
 	}
