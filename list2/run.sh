@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 # sysinfo_page - A script to generate experiment on Random Graphs and show charts from the results.
+# example usage: ./run.sh 50 50 500
+# example usage with default parameters (listed below): ./run.sh
 
 ##### Default constants
 
@@ -15,6 +17,7 @@ DEFAULT_N=500
 START=${1:-$DEFAULT_START}
 STEP=${2:-$DEFAULT_STEP}
 N=${3:-$DEFAULT_N}
+
 echo Running experiment with parameters: $'\n'\
     START: ${START} $'\n'\
     STEP: ${STEP} $'\n'\

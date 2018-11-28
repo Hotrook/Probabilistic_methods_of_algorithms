@@ -14,7 +14,6 @@ probabilitiesNumber = 6
 names = ["first", "second", "third", "fourth", "fifth", "sixth"]
 
 def read_data_from_file(filename):
-    
     data = np.genfromtxt(filename, delimiter=';')
     (_, sizeY) = np.shape(data)
     return data[:,0], data[:,1:sizeY]
