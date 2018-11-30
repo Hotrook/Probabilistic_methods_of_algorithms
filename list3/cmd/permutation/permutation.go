@@ -24,10 +24,9 @@ func main() {
 	probes := *probes
 	filename := fmt.Sprintf("data_%d_%d_%d.csv", start, step, n)
 
-	fmt.Printf("Runing experiment with following data: [n=%d], [step=%d], [start=%d]", n, step, start)
+	fmt.Printf("Runing experiment with following data: [n=%d], [step=%d], [start=%d], [probes=%d]\n", n, step, start, probes)
 
 	experimentResult := runExperiment(start, step, n, probes)
-
 	saveToFile(experimentResult, filename, start, step, n)
 }
 
@@ -58,10 +57,12 @@ func runExperiment(start int, step int, n int, probes int) *ExperimentResult {
 	experimentResult := NewExperimentResult(datasetSize)
 
 	for size := start; size <= n; size += step {
+		fmt.Printf("\rProcessing size %d", size)
 		index := size/step - 1
 		probeResult := runExperimentForSize(size, probes)
 		experimentResult.Add(index, probeResult)
 	}
+	fmt.Printf("\n")
 
 	return experimentResult
 }
