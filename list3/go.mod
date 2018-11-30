@@ -1,0 +1,1 @@
+module github.com/Hotrook/Probabilistic_methods_of_algorithms/list3
