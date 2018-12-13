@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/Hotrook/Probabilistic_methods_of_algorithms/list2/cmd/runExperiment/configuration"
 	"github.com/Hotrook/Probabilistic_methods_of_algorithms/list2/pkg/graphs"
 	"log"
 	"math"
@@ -28,7 +29,7 @@ func main() {
 
 	first, second := generateDataForCharts(functions, n, step, start, probes)
 
-	saveDatasetToFile(first, fmt.Sprintf("firstComponent_%d_%d_%d.txt", start, step, n), step)
+	saveDatasetToFile(first, fmt.Sprintf(configuration.GetInstance().GetFstComponentFileName(), start, step, n), step)
 	saveDatasetToFile(second, fmt.Sprintf("secondComponent_%d_%d_%d.txt", start, step, n), step)
 }
 
