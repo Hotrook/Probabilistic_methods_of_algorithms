@@ -18,6 +18,7 @@ var start = flag.Int("start", configuration.GetInstance().GetDefaultStart(), "Th
 var probes = flag.Int("probes", configuration.GetInstance().GetDefaultProbes(), "This is minimal value for probes number for each graph in experiment")
 
 func main() {
+	log.SetFlags(log.Ldate | log.Lshortfile | log.Ltime)
 
 	flag.Parse()
 	n := *n
@@ -28,7 +29,7 @@ func main() {
 
 	functions := []probabilityFunction{first, second, third, fourth, fifth, sixth}
 
-	fmt.Printf("Runing experiment with following data: [n=%d], [step=%d], [start=%d], [probes=%d]\n", n, step, start, probes)
+	log.Printf("Runing experiment with following data: [n=%d], [step=%d], [start=%d], [probes=%d]\n", n, step, start, probes)
 
 	first, second := generateDataForCharts(functions, n, step, start, probes)
 
@@ -88,7 +89,7 @@ func generateDataForCharts(probabilities []probabilityFunction, n, step, start, 
 
 	for size := start; size <= n; size += step {
 		i := size/step - 1
-		fmt.Printf("\rWorking on size %d", size)
+		log.Printf("Working on size %d", size)
 		for p := range probabilities {
 			componentSize1, componentSize2 := makeExperiment(probes, size, probabilities[p](size))
 			firstCompResult[i][p] = componentSize1
