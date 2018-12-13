@@ -16,6 +16,7 @@ var step = flag.Int("step", 50, "This is value by which size for graph in experi
 var start = flag.Int("start", 50, "This is minimal value for size for graph in experiment")
 
 func main() {
+
 	flag.Parse()
 	n := *n
 	step := *step
@@ -25,19 +26,10 @@ func main() {
 
 	functions := []probabilityFunction{first, second, third, fourth, fifth, sixth}
 
-	fmt.Printf("Running experiment for size=%d\n", n)
-	for p := range functions {
-		componentSize1, componentSize2 := makeExperiment(probes, n, functions[p](n))
-
-		fmt.Printf("For probablity %2d average size of  first component: %10f\n", p, componentSize1)
-		fmt.Printf("For probablity %2d average size of second component: %10f\n\n", p, componentSize2)
-	}
-
 	first, second := generateDataForCharts(functions, n, step, start, probes)
 
 	saveDatasetToFile(first, fmt.Sprintf("firstComponent_%d_%d_%d.txt", start, step, n), step)
 	saveDatasetToFile(second, fmt.Sprintf("secondComponent_%d_%d_%d.txt", start, step, n), step)
-
 }
 
 func first(n int) float64 {
