@@ -26,7 +26,6 @@ def generateChart(x, y):
             plt.plot(x,y[:,fn_index*2 + fp_index])
     plt.show()
 
-print(args.datafile)
 x,y = read_data_from_file(args.datafile)
 generateChart(x,y)
 

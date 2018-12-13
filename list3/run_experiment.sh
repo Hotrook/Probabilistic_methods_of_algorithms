@@ -5,7 +5,7 @@
 #   - average number of cycles and concentration
 #   - average number of fixed points and concentration
 #   - average number of records and concentration
-# example usage: ./run.sh 50 50 500
+# example usage: ./run.sh 50 50 500 100
 # example usage with default parameters (listed below): ./run.sh
 
 ##### Default constants
@@ -22,8 +22,9 @@ DEFAULT_PROBES=500
 START=${1:-$DEFAULT_START}
 STEP=${2:-$DEFAULT_STEP}
 N=${3:-$DEFAULT_N}
-PROBES=${4:-DEFAULT_PROBES}
+PROBES=${4:-$DEFAULT_PROBES}
 
+mkdir result
 echo Running experiment with parameters: $'\n'\
     START: ${START} $'\n'\
     STEP: ${STEP} $'\n'\
@@ -32,4 +33,4 @@ echo Running experiment with parameters: $'\n'\
 
 go install ./...
 permutation -n=${N} -step=${STEP} -start=${START} -probes=${PROBES}
-python3 charts.py -datafile data_${START}_${STEP}_${N}.csv
+python3 charts.py -datafile result/data_${START}_${STEP}_${N}.csv

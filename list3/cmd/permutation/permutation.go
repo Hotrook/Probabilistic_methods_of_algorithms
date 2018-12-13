@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/Hotrook/Probabilistic_methods_of_algorithms/list3/cmd/permutation/configuration"
 	. "github.com/Hotrook/Probabilistic_methods_of_algorithms/list3/pkg/permutation"
 	. "github.com/Hotrook/Probabilistic_methods_of_algorithms/list3/pkg/permutation/experiment/structures"
 	"log"
@@ -10,21 +11,22 @@ import (
 	"os"
 )
 
-var n = flag.Int("n", 1000, "This is max permutation size")
-var step = flag.Int("step", 50, "This is value by which size of permutation in experiment will change")
-var start = flag.Int("start", 50, "This is minimal value for size of permutation in experiment")
-var probes = flag.Int("probes", 1000, "This is minimal value for probes number for each size")
+var n = flag.Int("n", configuration.GetInstance().GetDefaultN(), "This is max permutation size")
+var step = flag.Int("step", configuration.GetInstance().GetDefaultStep(), "This is value by which size of permutation in experiment will change")
+var start = flag.Int("start", configuration.GetInstance().GetDefaultStart(), "This is minimal value for size of permutation in experiment")
+var probes = flag.Int("probes", configuration.GetInstance().GetDefaultProbes(), "This is minimal value for probes number for each size")
 
 func main() {
+	log.SetFlags(log.Lshortfile | log.Ldate | log.Ltime)
 
 	flag.Parse()
 	n := *n
 	step := *step
 	start := *start
 	probes := *probes
-	filename := fmt.Sprintf("data_%d_%d_%d.csv", start, step, n)
+	filename := fmt.Sprintf(configuration.GetInstance().GetFilename(), start, step, n)
 
-	fmt.Printf("Runing experiment with following data: [n=%d], [step=%d], [start=%d], [probes=%d]\n", n, step, start, probes)
+	log.Printf("Runing experiment with following data: [n=%d], [step=%d], [start=%d], [probes=%d]\n", n, step, start, probes)
 
 	experimentResult := runExperiment(start, step, n, probes)
 	saveToFile(experimentResult, filename, start, step, n)
@@ -57,12 +59,11 @@ func runExperiment(start int, step int, n int, probes int) *ExperimentResult {
 	experimentResult := NewExperimentResult(datasetSize)
 
 	for size := start; size <= n; size += step {
-		fmt.Printf("\rProcessing size %d", size)
+		log.Printf("Processing size %d", size)
 		index := size/step - 1
 		probeResult := runExperimentForSize(size, probes)
 		experimentResult.Add(index, probeResult)
 	}
-	fmt.Printf("\n")
 
 	return experimentResult
 }
