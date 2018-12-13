@@ -26,6 +26,7 @@ echo Running experiment with parameters: $'\n'\
     N: ${N} $'\n'\
     PROBES: ${PROBES}
 
+mkdir results
 go install ./...
 runExperiment -n=${N} -step=${STEP} -start=${START} -probes=${PROBES}
 python3 charts.py -fst results/firstComponent_${START}_${STEP}_${N}.txt -snd results/secondComponent_${START}_${STEP}_${N}.txt
