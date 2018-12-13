@@ -12,9 +12,10 @@ import (
 
 type probabilityFunction func(int) float64
 
-var n = flag.Int("n", 1000, "This is max size for graph in experiment")
-var step = flag.Int("step", 50, "This is value by which size for graph in experiment will change")
-var start = flag.Int("start", 50, "This is minimal value for size for graph in experiment")
+var n = flag.Int("n", configuration.GetInstance().GetDefaultN(), "This is max size for graph in experiment")
+var step = flag.Int("step", configuration.GetInstance().GetDefaultStep(), "This is value by which size for graph in experiment will change")
+var start = flag.Int("start", configuration.GetInstance().GetDefaultStart(), "This is minimal value for size for graph in experiment")
+var probes = flag.Int("probes", configuration.GetInstance().GetDefaultProbes(), "This is minimal value for probes number for each graph in experiment")
 
 func main() {
 
@@ -23,9 +24,11 @@ func main() {
 	step := *step
 	start := *start
 
-	probes := 100
+	probes := *probes
 
 	functions := []probabilityFunction{first, second, third, fourth, fifth, sixth}
+
+	fmt.Printf("Runing experiment with following data: [n=%d], [step=%d], [start=%d], [probes=%d]\n", n, step, start, probes)
 
 	first, second := generateDataForCharts(functions, n, step, start, probes)
 

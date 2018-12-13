@@ -15,7 +15,7 @@ var once sync.Once
 func GetInstance() *Config {
 	once.Do(func() {
 		configFile, err := goconf.ReadConfigFile("config.config")
-		println(configFile.GetSections())
+
 		if err != nil {
 			panic(err)
 		}
@@ -25,16 +25,40 @@ func GetInstance() *Config {
 	return instance
 }
 
+func (instance *Config) GetDefaultN() int {
+	return instance.readIntValue("n")
+}
+
+func (instance *Config) GetDefaultStart() int {
+	return instance.readIntValue("start")
+}
+
+func (instance *Config) GetDefaultStep() int {
+	return instance.readIntValue("step")
+}
+
+func (instance *Config) GetDefaultProbes() int {
+	return instance.readIntValue("probes")
+}
+
 func (instance *Config) GetFstComponentFileName() string {
-	return instance.readValue("fst-component-file")
+	return instance.readStringValue("fst-component-file")
 }
 
 func (instance *Config) GetSndComponentFileName() string {
-	return instance.readValue("snd-component-file")
+	return instance.readStringValue("snd-component-file")
 }
 
-func (instance *Config) readValue(valueName string) string {
-	value, err := instance.configFile.GetString("default", valueName)
+func (instance *Config) readStringValue(propertyName string) string {
+	value, err := instance.configFile.GetString("default", propertyName)
+	if err != nil {
+		panic(err)
+	}
+	return value
+}
+
+func (instance *Config) readIntValue(propertyName string) int {
+	value, err := instance.configFile.GetInt("default", propertyName)
 	if err != nil {
 		panic(err)
 	}
